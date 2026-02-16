@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 6 * * *'  # exécution quotidienne à 6h UTC
+    - cron: '*/1 * * * *'  # exécution toutes les minutes
 
 jobs:
   update_csv:
@@ -17,7 +17,7 @@ jobs:
         with:
           persist-credentials: true
 
-      # 2️⃣ Configurer Git EN PREMIER
+      # 2️⃣ Configurer Git
       - name: Configure Git
         run: |
           git config --global user.name "Mathilde"
@@ -52,3 +52,4 @@ jobs:
             git commit -m "Mise à jour automatique du CSV"
             git push origin main
           fi
+         
