@@ -1,0 +1,54 @@
+name: Update CSV
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 6 * * *'  # exécution quotidienne à 6h UTC
+
+jobs:
+  update_csv:
+    runs-on: ubuntu-latest
+    steps:
+      # 1️⃣ Checkout du dépôt
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      # 2️⃣ Configurer Git EN PREMIER
+      - name: Configure Git
+        run: |
+          git config --global user.name "Mathilde"
+          git config --global user.email "mfaggion57@gmail.com"
+          git config pull.rebase true
+
+      # 3️⃣ Setup Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 4️⃣ Installer les dépendances
+      - name: Install pandas
+        run: pip install pandas
+
+      # 5️⃣ Pull des derniers changements
+      - name: Pull latest changes
+        run: git pull origin main || true
+
+      # 6️⃣ Exécuter le script CSV
+      - name: Run update script
+        run: python update_csv.py
+
+      # 7️⃣ Commit & push CSV
+      - name: Commit and push CSV
+        run: |
+          git add compteurs.csv
+          if git diff --staged --quiet; then
+            echo "Pas de changements à commiter"
+          else
+            git commit -m "Mise à jour automatique du CSV"
+            git push origin main
+          fi
