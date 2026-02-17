@@ -6,7 +6,6 @@ import os
 
 # Config page
 st.set_page_config(page_title="Comptage Mobilité", layout="wide", page_icon="🚀")
-
 st.title("🚀 Simulation de comptage des flux de mobilité")
 st.markdown("---")
 
@@ -104,7 +103,8 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-previous["humains"] + previous["velos"]))
+
     
+
 
 
