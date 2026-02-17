@@ -27,6 +27,32 @@ last = df_recent.iloc[-1]
 previous = df_recent.iloc[-2] if len(df_recent) > 1 else last
 
 # -----------------------------
+# Métriques EN HAUT
+# -----------------------------
+col1, spacer1, col2, spacer2, col3 = st.columns([1, 0.2, 1, 0.2, 1])
+
+with col1:
+    st.metric(
+        label="🚶 Piétons",
+        value=int(last["humains"]),
+        delta=int(last["humains"] - previous["humains"])
+    )
+
+with col2:
+    st.metric(
+        label="🚲 Vélos",
+        value=int(last["velos"]),
+        delta=int(last["velos"] - previous["velos"])
+    )
+
+with col3:
+    st.metric(
+        label="📊 Total",
+        value=int(last["humains"] + last["velos"]),
+        delta=int((last["humains"] + last["velos"]) - (previous["humains"] + previous["velos"]))
+    )
+
+# -----------------------------
 # Graphique
 # -----------------------------
 st.subheader("📈 Évolution des flux en temps réel")
@@ -62,7 +88,7 @@ fig.update_layout(
 
 st.plotly_chart(fig, use_container_width=True)
 
-# Légende HTML collée sous le graphique
+# Légende HTML sous le graphique
 st.markdown(
     """
     <div style="display:flex; justify-content:center; align-items:center; gap:40px; margin-top:-20px; margin-bottom:24px;">
@@ -78,29 +104,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-# -----------------------------
-# Métriques
-# -----------------------------
-col1, spacer1, col2, spacer2, col3 = st.columns([1, 0.2, 1, 0.2, 1])
-
-with col1:
-    st.metric(
-        label="🚶 Piétons",
-        value=int(last["humains"]),
-        delta=int(last["humains"] - previous["humains"])
+previous["humains"] + previous["velos"]))
     )
 
-with col2:
-    st.metric(
-        label="🚲 Vélos",
-        value=int(last["velos"]),
-        delta=int(last["velos"] - previous["velos"])
-    )
-
-with col3:
-    st.metric(
-        label="📊 Total",
-        value=int(last["humains"] + last["velos"]),
-        delta=int((last["humains"] + last["velos"]) - (previous["humains"] + previous["velos"]))
-    )
