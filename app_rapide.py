@@ -105,5 +105,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 previous["humains"] + previous["velos"]))
-    )
+    
+
 
